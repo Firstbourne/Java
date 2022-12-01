@@ -24,7 +24,7 @@ public class ClockShopApplication extends Application {
     public void showMainWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(ClockShopApplication.class.getResource("ShopGUI.fxml"));
-            Scene mainScene = new Scene(loader.load(), Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight() - 50);
+            Scene mainScene = new Scene(loader.load(), 1280, 720);
             Stage mainStage = new Stage();
             mainStage.setTitle("Shop");
             mainStage.setScene(mainScene);
@@ -41,7 +41,7 @@ public class ClockShopApplication extends Application {
     public void showAddWindow(Clock clock, ListView<Clock> listView) {
         FXMLLoader loader = new FXMLLoader(ClockShopApplication.class.getResource("NewItem.fxml"));
         try {
-            Scene newScene = new Scene(loader.load(),480,360);
+            Scene newScene = new Scene(loader.load(),240,400);
             Stage newStage = new Stage();
             newStage.setScene(newScene);
             newStage.setTitle("Add new");

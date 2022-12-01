@@ -13,9 +13,9 @@ public class Clock {
     private IntegerProperty seconds;
     private IntegerProperty minutes;
     private IntegerProperty hours;
-    private IntegerProperty cost;
-    private StringProperty mark;
-    private StringProperty name;
+    public IntegerProperty cost;
+    public StringProperty mark;
+    public StringProperty name;
 
     public Clock() {
         seconds = new SimpleIntegerProperty();

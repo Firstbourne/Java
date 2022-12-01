@@ -40,15 +40,24 @@ public class ItemController {
     }
 
     public void create(ActionEvent actionEvent) {
-        if ((mark == null || mark.getText().isEmpty()) && (name == null || name.getText().isEmpty()) && (price == null || price.getText().isEmpty()) && (type == null)) {
+        if ((mark == null || mark.getText().isEmpty()) || (name == null || name.getText().isEmpty()) || (price == null || price.getText().isEmpty()) || (type == null)) {
             new Alert(Alert.AlertType.ERROR, "The one of the fields is null or empty").showAndWait();
             return;
         }
         clock.setMark(mark.getText());
 
-        try {clock.setCost(Integer.parseInt(price.getText()));} catch (IncorrectNumberException e) {throw new RuntimeException(e);}
+        try {
+            clock.setCost(Integer.parseInt(price.getText()));
+        } catch ( IncorrectNumberException e) {
+            new Alert(Alert.AlertType.ERROR, "Price is below zero").showAndWait();
+            return;
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Price is not a number").showAndWait();
+            return;
+        }
 
         clock.setName(name.getText());
+        clock.isTyped = type.isSelected();
 
         listView.getItems().add(clock);
         returnList();

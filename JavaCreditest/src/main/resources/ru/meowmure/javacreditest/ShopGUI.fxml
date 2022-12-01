@@ -1,96 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" fillWidth="false" prefHeight="1080.0" prefWidth="1920.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<VBox alignment="CENTER" fillWidth="false" prefHeight="720" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
    <children>
-      <AnchorPane prefHeight="25.0" prefWidth="1929.0">
+      <AnchorPane prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <MenuBar fx:id="menuBar" layoutX="-7.0" layoutY="-20.0" prefHeight="25.0" prefWidth="1929.0">
+            <ListView fx:id="listView" layoutX="20.0" layoutY="70.0" onMouseClicked="#onItemSelected" orientation="HORIZONTAL" prefHeight="50.0" prefWidth="1080.0" />
+            <Separator layoutX="610.0" layoutY="120.0" orientation="VERTICAL" prefHeight="605.0" prefWidth="10.0" />
+            <Separator layoutX="1120.0" orientation="VERTICAL" prefHeight="725.0" />
+            <Button fx:id="add" layoutX="1200.0" layoutY="20.0" mnemonicParsing="false" onAction="#add" prefWidth="80.0" text="Add" textAlignment="JUSTIFY" />
+            <Button fx:id="delete" layoutX="1200.0" layoutY="60.0" mnemonicParsing="false" prefWidth="80.0" text="Delete" textAlignment="JUSTIFY" />
+            <Button fx:id="setTime" layoutX="1200.0" layoutY="100.0" mnemonicParsing="false" prefWidth="80.0" text="Set time" textAlignment="JUSTIFY" />
+            <ImageView fitHeight="570.0" fitWidth="570.0" layoutX="20.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="650.0" layoutY="283.0" text="Name">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font></Label>
+            <Label layoutX="650.0" layoutY="314.0" text="Mark">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font></Label>
+            <Label fx:id="labelName" layoutX="720.0" layoutY="283.0">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font></Label>
+            <Label fx:id="labelMark" layoutX="720.0" layoutY="314.0">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font></Label>
+            <Label fx:id="labelType" layoutX="720.0" layoutY="349.0">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font></Label>
+            <Label layoutX="650.0" layoutY="349.0" text="Type">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="650.0" layoutY="384.0" text="Price">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelPrice" layoutX="720.0" layoutY="384.0">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font>
+            </Label>
+            <MenuBar fx:id="menuBar">
               <menus>
                 <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" text="Open" />
-                        <MenuItem fx:id="menuItemSave" mnemonicParsing="false" text="Save" />
-                    <MenuItem fx:id="menuItemClose" mnemonicParsing="false" text="Close" />
+                     <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" text="Open" />
+                     <MenuItem fx:id="menuItemSave" mnemonicParsing="false" text="Save" />
+                     <MenuItem fx:id="menuItemClose" mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
-                <Menu fx:id="menuEdit" mnemonicParsing="false" text="Edit">
+                <Menu fx:id="menuActions" mnemonicParsing="false" text="Actions">
                   <items>
-                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" text="Delete" />
+                     <MenuItem fx:id="menuItemAction1" mnemonicParsing="false" text="Show the most expensive clocks" onAction="#getExpensive"/>
+                     <MenuItem fx:id="menuItemAction2" mnemonicParsing="false" text="Set time to all of clocks" />
+                     <MenuItem fx:id="menuItemAction3" mnemonicParsing="false" text="Show the most frequent brand" />
                   </items>
                 </Menu>
-                <Menu id="MenuHelp" mnemonicParsing="false" text="Help">
+                <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" text="..." />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
          </children>
       </AnchorPane>
-      <BorderPane prefHeight="1080.0" prefWidth="1920.0" VBox.vgrow="SOMETIMES">
-         <left>
-            <ListView fx:id="listView" prefHeight="995.0" prefWidth="400.0" />
-         </left>
-         <right>
-            <BorderPane prefHeight="440.0" prefWidth="407.0" BorderPane.alignment="CENTER">
-               <bottom>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <bottom>
-                        <FlowPane alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="400.0" rowValignment="TOP">
-                           <children>
-                              <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="80.0" text="Add">
-                                 <font>
-                                    <Font name="Calibri" size="14.0" />
-                                 </font></Button>
-                              <Button fx:id="buttonSet" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Set Time">
-                                 <font>
-                                    <Font name="Calibri" size="14.0" />
-                                 </font></Button>
-                              <Button fx:id="buttonShow" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="All Clocks">
-                                 <font>
-                                    <Font name="Calibri" size="14.0" />
-                                 </font></Button>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Button" />
-                           </children>
-                        </FlowPane>
-                     </bottom>
-                  </BorderPane>
-               </bottom>
-               <top>
-                  <ImageView fx:id="imageView" fitHeight="640.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-               </top>
-               <center>
-                  <Accordion prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <panes>
-                      <TitledPane fx:id="titledPane1" animated="false" text="untitled 1">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane fx:id="titledPane2" animated="false" text="untitled 2">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane fx:id="titledPane3" animated="false" text="untitled 3">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                    </panes>
-                  </Accordion>
-               </center>
-            </BorderPane>
-         </right>
-      </BorderPane>
    </children>
 </VBox>
