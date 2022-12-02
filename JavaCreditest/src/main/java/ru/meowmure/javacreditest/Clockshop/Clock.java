@@ -4,11 +4,16 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
 import ru.meowmure.javacreditest.Exceptions.NotCompatibleTypeException;
 import ru.meowmure.javacreditest.Exceptions.NotValidTimeException;
 
 public class Clock {
+    ClockPane clockPane;
+
     public boolean isTyped;
     private IntegerProperty seconds;
     private IntegerProperty minutes;
@@ -16,14 +21,16 @@ public class Clock {
     public IntegerProperty cost;
     public StringProperty mark;
     public StringProperty name;
+    private Stage stage;
 
-    public Clock() {
+    public Clock(Stage stage) {
         seconds = new SimpleIntegerProperty();
         minutes = new SimpleIntegerProperty();
         hours = new SimpleIntegerProperty();
         cost = new SimpleIntegerProperty();
         mark =  new SimpleStringProperty();
         name = new SimpleStringProperty();
+        clockPane = new ClockPane(stage);
     }
 
     public Clock(int cost, String mark, String name) {
@@ -67,6 +74,7 @@ public class Clock {
     public void setMark(String mark) {
         this.mark = new SimpleStringProperty(mark);
     }
+
 
     @Override
     public String toString() {

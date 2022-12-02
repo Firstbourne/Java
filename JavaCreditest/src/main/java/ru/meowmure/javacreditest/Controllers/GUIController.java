@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
@@ -53,7 +54,7 @@ public class GUIController {
     }
 
     public void add(ActionEvent actionEvent) {
-        Clock clock = new Clock();
+        Clock clock = new Clock((Stage)add.getScene().getWindow());
         app.showAddWindow(clock, listView);
     }
 
