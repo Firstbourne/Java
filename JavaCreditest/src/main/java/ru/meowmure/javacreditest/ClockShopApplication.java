@@ -57,6 +57,23 @@ public class ClockShopApplication extends Application {
         }
     }
 
+    public void showTimeWindow() {
+        FXMLLoader loader = new FXMLLoader(ClockShopApplication.class.getResource("SetTimeForm.fxml"));
+        try {
+            Scene newScene = new Scene(loader.load(),300, 250);
+            Stage newStage = new Stage();
+            newStage.setScene(newScene);
+            newStage.setTitle("Set Time");
+            GUIController controller = loader.getController();
+            this.GUIcontroller = controller;
+            controller.setApp(this);
+            newStage.showAndWait();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         launch();
     }

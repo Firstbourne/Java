@@ -9,6 +9,7 @@ module ru.meowmure.javacreditest {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.desktop;
 
     opens ru.meowmure.javacreditest to javafx.fxml;
     exports ru.meowmure.javacreditest;
