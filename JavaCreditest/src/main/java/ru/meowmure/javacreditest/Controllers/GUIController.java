@@ -9,8 +9,9 @@ import javafx.stage.Stage;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
-import java.security.PrivateKey;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class GUIController {
@@ -20,17 +21,29 @@ public class GUIController {
     @FXML
     private Button add;
     @FXML
-    private Button delete;
-    @FXML
     private Button setTime;
+    @FXML
+    private Button buttonSet;
     @FXML
     private Label labelName;
     @FXML
-    private Label labelMark;
+    private Label labelBrand;
     @FXML
     private Label labelType;
     @FXML
     private Label labelPrice;
+    @FXML
+    private Label labelHour;
+    @FXML
+    private Label labelMin;
+    @FXML
+    private Label labelSec;
+    @FXML
+    private TextField textFieldHour;
+    @FXML
+    private TextField textFieldMin;
+    @FXML
+    private TextField textFieldSec;
     @FXML
     private MenuItem menuItemAction1;
     @FXML
@@ -46,6 +59,8 @@ public class GUIController {
     @FXML
     private Canvas canvas;
 
+    private HashMap<String, Integer> map;
+
     private ClockShopApplication app;
 
     public void setApp(ClockShopApplication app) {
@@ -54,19 +69,27 @@ public class GUIController {
 
     public void setListView(ListView<Clock> listView) {
         this.listView = listView;
-        listView.refresh();
     }
 
     public void add(ActionEvent actionEvent) {
-        Clock clock = new Clock((Stage) listView.getScene().getWindow());
+        Clock clock = new Clock(canvas);
         app.showAddWindow(clock, listView);
     }
 
     public void onItemSelected(MouseEvent mouseEvent) {
+        if (listView.getItems().isEmpty()) return;
         labelName.setText(listView.getSelectionModel().getSelectedItem().name.getValue());
-        labelMark.setText(listView.getSelectionModel().getSelectedItem().mark.getValue());
+        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark.getValue());
         labelType.setText(listView.getSelectionModel().getSelectedItem().isTyped ? "With seconds" : "Without seconds");
         labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost.getValue())));
+        listView.getSelectionModel().getSelectedItem().draw();
+        labelHour.setVisible(true);
+        labelMin.setVisible(true);
+        labelSec.setVisible(true);
+        textFieldHour.setVisible(true);
+        textFieldMin.setVisible(true);
+        textFieldSec.setVisible(true);
+        buttonSet.setVisible(true);
     }
 
     public void getExpensive(ActionEvent actionEvent) {
@@ -81,6 +104,36 @@ public class GUIController {
         new Alert(Alert.AlertType.INFORMATION, "The most expensive clock price is: " + max).showAndWait();
     }
 
-    // TODO: 16.11.2022 output description of clock from listview, add new labels for description properties (DONE)
-    // TODO:
+    //Button Set on main window
+    public void setChosenTime(ActionEvent actionEvent) {
+        listView.getSelectionModel().getSelectedItem().setTime(
+                textFieldHour.getText().isEmpty() ? 0 : Integer.parseInt(textFieldHour.getText()),
+                textFieldMin.getText().isEmpty() ? 0 : Integer.parseInt(textFieldMin.getText()),
+                textFieldSec.getText().isEmpty() ? 0 : Integer.parseInt(textFieldSec.getText())
+        );
+        listView.getSelectionModel().getSelectedItem().draw();
+    }
+
+    //Action 2 in actions menu
+    public void setUpAllClocks(ActionEvent actionEvent) {
+        app.showTimeWindow(listView);
+    }
+
+
+    //NOT DONE YET
+    public void action3(ActionEvent actionEvent) {
+        map = new HashMap<>();
+        for (Clock clock : listView.getItems()) {
+            if (!map.containsKey(clock.mark)) {
+                map.put(String.valueOf(clock.mark), 1);
+            } else {
+                for(Map.Entry<String, Integer> pair : map.entrySet()) {
+                    if (pair.getKey() == String.valueOf(clock.mark)) {
+                        pair.setValue(pair.getValue() + 1);
+                    }
+                }
+            }
+        }
+        System.out.println(map.values());
+    }
 }

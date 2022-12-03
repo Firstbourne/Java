@@ -1,19 +1,13 @@
 package ru.meowmure.javacreditest.Controllers;
 
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
-
-import java.io.IOException;
 
 public class ItemController {
 
@@ -39,6 +33,10 @@ public class ItemController {
         this.listView = listView;
     }
 
+    public ListView<Clock> getListView() {
+        return listView;
+    }
+
     public void create(ActionEvent actionEvent) {
         if ((mark == null || mark.getText().isEmpty()) || (name == null || name.getText().isEmpty()) || (price == null || price.getText().isEmpty()) || (type == null)) {
             new Alert(Alert.AlertType.ERROR, "The one of the fields is null or empty").showAndWait();
@@ -62,7 +60,7 @@ public class ItemController {
         listView.getItems().add(clock);
         returnList();
         ((Stage)(buttonCreate.getScene().getWindow())).close();
-    }
+     }
 
     public void setObject(Clock clock) {
         this.clock = clock;
