@@ -61,7 +61,6 @@ public class Clock {
     public void setHours(int hours) throws NotValidTimeException {
         if (!(hours >= 0 && hours < 24)) throw new NotValidTimeException("Hours can be only from 0 to 23");
         this.hours = new SimpleIntegerProperty(hours);
-
     }
 
 

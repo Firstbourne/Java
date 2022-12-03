@@ -63,8 +63,8 @@
                 <Menu fx:id="menuActions" mnemonicParsing="false" text="Actions">
                   <items>
                      <MenuItem fx:id="menuItemAction1" mnemonicParsing="false" onAction="#getExpensive" text="Show the most expensive clocks" />
-                     <MenuItem fx:id="menuItemAction2" mnemonicParsing="false" text="Set time to all of clocks" />
-                     <MenuItem fx:id="menuItemAction3" mnemonicParsing="false" text="Show the most frequent brand" />
+                     <MenuItem fx:id="menuItemAction2" mnemonicParsing="false" text="Set time to all of clocks" onAction="#time" />
+                     <MenuItem fx:id="menuItemAction3" mnemonicParsing="false" text="Show the most frequent brand" onAction="#MostFrequentlyBrands" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">

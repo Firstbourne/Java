@@ -2,12 +2,14 @@ package ru.meowmure.javacreditest.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
+import java.security.PrivateKey;
 import java.util.Iterator;
 
 
@@ -41,6 +43,8 @@ public class GUIController {
     private MenuItem menuItemSave;
     @FXML
     private MenuItem menuItemClose;
+    @FXML
+    private Canvas canvas;
 
     private ClockShopApplication app;
 
@@ -54,7 +58,7 @@ public class GUIController {
     }
 
     public void add(ActionEvent actionEvent) {
-        Clock clock = new Clock((Stage)add.getScene().getWindow());
+        Clock clock = new Clock((Stage) listView.getScene().getWindow());
         app.showAddWindow(clock, listView);
     }
 
