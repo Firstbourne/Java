@@ -1,95 +1,160 @@
 package ru.meowmure.javacreditest.Clockshop;
 
-import javafx.animation.RotateTransition;
+import javafx.animation.*;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-import static javafx.scene.paint.Color.*;
-
-import java.lang.reflect.AccessibleObject;
+import java.awt.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 class ClockPane extends Pane {
-    private Canvas canvas;
+    private Group group;
     private Clock clock;
-    private GraphicsContext context;
+    private Line sline;
+    private Line mline;
+    private Line hline;
     private int hours = 0, minutes = 0, seconds = 0;
     private double width = 350, height = 350;
 
 
-    public ClockPane(Canvas canvas, Clock clock){
-        this.canvas = canvas;
-        context = canvas.getGraphicsContext2D();
+    public ClockPane(Group group, Clock clock){
+        this.group = group;
         this.clock = clock;
     }
-
-//    public void setCurrentTime() {
-//        Calendar calendar = new GregorianCalendar();
-//
-//        this.hours = calendar.get(Calendar.HOUR_OF_DAY);
-//        this.minutes = calendar.get(Calendar.MINUTE);
-//        this.seconds = calendar.get(Calendar.SECOND);
-//
-//        PaintClock();
-//    }
     public void setTime(int hours, int minutes, int seconds) {
-        this.hours = hours;
-        this.minutes = minutes;
         this.seconds = seconds;
-        System.out.println(hours + " " + minutes + " " + seconds);
+        this.minutes = minutes;
+        this.hours = hours;
+
     }
     protected void PaintClock() {
+        group.getChildren().clear();
 
-        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        double clockRadius = Math.min(width, height) * 0.8 * 0.5;
         double halfWidth = width / 2;
         double halfHeight = height / 2;
-        double centerX = canvas.getWidth() / 2;
-        double centerY = canvas.getWidth() / 2;
 
+        double clockRadius = Math.min(width, height) * 0.8 * 0.5;
+        double centerX = group.getLayoutBounds().getCenterX();
+        double centerY = group.getLayoutBounds().getCenterY();
 
-        context.setStroke(Color.DARKBLUE);
-        context.strokeOval(canvas.getWidth() / 2 - halfWidth, canvas.getHeight() / 2 - halfHeight, width, height);
-        context.fillText("12", centerX - 7, centerY - halfHeight + 11);
-        context.fillText("9", centerX - halfWidth + 3, centerY + 3);
-        context.fillText("3", centerX + halfWidth - 10, centerY + 5);
-        context.fillText("6", centerX - 4, centerY + halfHeight - 3);
+        double seedSecondDegrees  = seconds * (360 / 60);
+        double seedMinuteDegrees  = (minutes + seedSecondDegrees / 360.0) * (360 / 60);
+        double seedHourDegrees    = (hours + seedMinuteDegrees / 360.0) * (360 / 12);
+
+        Circle mainCircle = new Circle(centerX,centerY, clockRadius, Color.WHITE);
+        mainCircle.setStroke(Color.DARKBLUE);
+
+        Circle centerDot = new Circle(centerX,centerY, clockRadius * 0.02,Color.BLACK);
+
+        group.getChildren().add(mainCircle);
+        group.getChildren().add(centerDot);
 
         if (clock.isTyped) {
             double slength = clockRadius * 0.8;
-            double secondX = centerX + slength * Math.sin(seconds * (2 * Math.PI / 60));
-            double secondY = centerX - slength * Math.cos(seconds * (2 * Math.PI / 60));
 
-            context.setStroke(Color.RED);
-            context.strokeLine(centerX, centerY, secondX, secondY);
+            sline = new Line(centerX, centerY, centerX, centerY - slength);
+            sline.setStroke(Color.RED);
+            sline.setTranslateX(0);
+            sline.setTranslateY(0);
+
+            group.getChildren().add(sline);
+
+            Rotate srotate = new Rotate(seedSecondDegrees);
+            sline.getTransforms().add(srotate);
+
+            Timeline secondTime = new Timeline(
+                    new KeyFrame(
+                            Duration.seconds(60),
+                            new KeyValue(
+                                    srotate.angleProperty(),
+                                    360 + seedSecondDegrees,
+                                    Interpolator.LINEAR
+                            )
+                    )
+            );
+            secondTime.setCycleCount(Animation.INDEFINITE);
+            secondTime.play();
         }
-
         double mlength = clockRadius * 0.65;
-        double minuteX = centerX + mlength * Math.sin(minutes * (2 * Math.PI / 60));
-        double minuteY = centerX - mlength * Math.cos(minutes * (2 * Math.PI / 60));
 
-        context.setStroke(Color.BLACK);
-        context.strokeLine(centerX, centerY, minuteX, minuteY);
+        mline = new Line(centerX, centerY, centerX, centerY - mlength);
+        mline.setStroke(Color.BLACK);
+        mline.setTranslateX(0);
+        mline.setTranslateY(0);
+
+        group.getChildren().add(mline);
+
+        Rotate mrotate = new Rotate(seedMinuteDegrees);
+        mline.getTransforms().add(mrotate);
+
+        Timeline minuteTime = new Timeline(
+                new KeyFrame(
+                        Duration.minutes(60),
+                        new KeyValue(
+                                mrotate.angleProperty(),
+                                360 + seedMinuteDegrees,
+                                Interpolator.LINEAR
+                        )
+                )
+        );
+        minuteTime.setCycleCount(Animation.INDEFINITE);
+        minuteTime.play();
 
         double hlength = clockRadius * 0.5;
-        double hourX = centerX + hlength * Math.sin((hours % 12 + minutes / 60.0) * (2 * Math.PI / 12));
-        double hourY = centerX - hlength * Math.cos((hours % 12 + minutes / 60.0) * (2 * Math.PI / 12));
 
-        context.setStroke(Color.BLUE);
-        context.strokeLine(centerX, centerY, hourX, hourY);
+        hline = new Line(centerX, centerY, centerX, centerY - hlength);
+        hline.setStroke(Color.BLUE);
+        hline.setTranslateX(0);
+        hline.setTranslateY(0);
 
+        group.getChildren().add(hline);
+
+        Rotate hrotate = new Rotate(seedHourDegrees);
+        hline.getTransforms().add(hrotate);
+
+        Timeline hourTime = new Timeline(
+                new KeyFrame(
+                        Duration.hours(12),
+                        new KeyValue(
+                                hrotate.angleProperty(),
+                                360 + seedHourDegrees,
+                                Interpolator.LINEAR
+                        )
+                )
+        );
+        hourTime.setCycleCount(Animation.INDEFINITE);
+        hourTime.play();
+
+        Label label12 = new Label("12");
+        label12.setFont(new Font(15));
+        label12.setLayoutX(centerX - 8);
+        label12.setLayoutY(centerY - clockRadius);
+        group.getChildren().add(label12);
+
+        Label label3 = new Label("3");
+        label3.setFont(new Font(15));
+        label3.setLayoutX(centerX + clockRadius - 15);
+        label3.setLayoutY(centerY - 10);
+        group.getChildren().add(label3);
+
+        Label label6 = new Label("6");
+        label6.setFont(new Font(15));
+        label6.setLayoutX(centerX - 4);
+        label6.setLayoutY(centerY + clockRadius - 23);
+        group.getChildren().add(label6);
+
+        Label label9 = new Label("9");
+        label9.setFont(new Font(15));
+        label9.setLayoutX(centerX - clockRadius + 8);
+        label9.setLayoutY(centerY - 10);
+        group.getChildren().add(label9);
     }
 }

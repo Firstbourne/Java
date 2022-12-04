@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -38,13 +38,6 @@
             <Insets bottom="10.0" left="10.0" top="10.0" />
          </BorderPane.margin></ListView>
    </left>
-   <center>
-      <Canvas fx:id="canvas" height="400.0" width="400.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets left="20.0" right="20.0" />
-         </BorderPane.margin>
-      </Canvas>
-   </center>
    <right>
       <FlowPane orientation="VERTICAL" prefHeight="491.0" prefWidth="171.0" BorderPane.alignment="CENTER">
          <children>
@@ -162,4 +155,11 @@
          </children>
       </FlowPane>
    </right>
+   <center>
+      <AnchorPane maxHeight="470.0" maxWidth="470.0" prefHeight="470.0" prefWidth="470.0" BorderPane.alignment="CENTER">
+         <children>
+            <Group fx:id="group" layoutX="241.0" layoutY="248.0" />
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

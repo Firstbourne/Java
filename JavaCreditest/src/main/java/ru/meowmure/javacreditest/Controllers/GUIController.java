@@ -2,6 +2,7 @@ package ru.meowmure.javacreditest.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -57,7 +58,7 @@ public class GUIController {
     @FXML
     private MenuItem menuItemClose;
     @FXML
-    private Canvas canvas;
+    private Group group;
 
     private HashMap<String, Integer> map;
 
@@ -72,7 +73,7 @@ public class GUIController {
     }
 
     public void add(ActionEvent actionEvent) {
-        Clock clock = new Clock(canvas);
+        Clock clock = new Clock(group);
         app.showAddWindow(clock, listView);
     }
 

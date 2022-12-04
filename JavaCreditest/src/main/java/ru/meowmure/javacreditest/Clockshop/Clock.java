@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
@@ -18,11 +19,11 @@ public class Clock {
     public StringProperty name;
 
 
-    public Clock(Canvas canvas) {
+    public Clock(Group group) {
         cost = new SimpleIntegerProperty();
         mark =  new SimpleStringProperty();
         name = new SimpleStringProperty();
-        clockPane = new ClockPane(canvas, this);
+        clockPane = new ClockPane(group, this);
     }
 
     public Clock(int cost, String mark, String name) {
