@@ -11,10 +11,6 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-import java.awt.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 class ClockPane extends Pane {
     private Group group;
     private Clock clock;
@@ -38,9 +34,6 @@ class ClockPane extends Pane {
     protected void PaintClock() {
         group.getChildren().clear();
 
-        double halfWidth = width / 2;
-        double halfHeight = height / 2;
-
         double clockRadius = Math.min(width, height) * 0.8 * 0.5;
         double centerX = group.getLayoutBounds().getCenterX();
         double centerY = group.getLayoutBounds().getCenterY();
@@ -50,12 +43,23 @@ class ClockPane extends Pane {
         double seedHourDegrees    = (hours + seedMinuteDegrees / 360.0) * (360 / 12);
 
         Circle mainCircle = new Circle(centerX,centerY, clockRadius, Color.WHITE);
-        mainCircle.setStroke(Color.DARKBLUE);
+        mainCircle.setStrokeWidth(2);
+        mainCircle.setStroke(Color.CORAL);
 
+        Circle helpCircle = new Circle(centerX,centerY, clockRadius - 5, Color.WHITE);
         Circle centerDot = new Circle(centerX,centerY, clockRadius * 0.02,Color.BLACK);
 
         group.getChildren().add(mainCircle);
-        group.getChildren().add(centerDot);
+        for (int i = 0; i < 60; i++){
+            Line segment = new Line(centerX, centerY, centerX + clockRadius * Math.sin(i * (Math.PI / 30)), centerY - clockRadius * Math.cos(i * (Math.PI / 30)));
+            if (i % 5 == 0) {
+                segment.setStroke(Color.RED);
+                segment.setStrokeWidth(3);
+            }
+            else {segment.setStroke(Color.BLACK);}
+            group.getChildren().add(segment);
+        }
+        group.getChildren().add(helpCircle);
 
         if (clock.isTyped) {
             double slength = clockRadius * 0.8;
@@ -133,28 +137,30 @@ class ClockPane extends Pane {
         hourTime.setCycleCount(Animation.INDEFINITE);
         hourTime.play();
 
+        group.getChildren().add(centerDot);
+
         Label label12 = new Label("12");
         label12.setFont(new Font(15));
         label12.setLayoutX(centerX - 8);
-        label12.setLayoutY(centerY - clockRadius);
+        label12.setLayoutY(centerY - clockRadius + 3);
         group.getChildren().add(label12);
 
         Label label3 = new Label("3");
         label3.setFont(new Font(15));
         label3.setLayoutX(centerX + clockRadius - 15);
-        label3.setLayoutY(centerY - 10);
+        label3.setLayoutY(centerY - 11);
         group.getChildren().add(label3);
 
         Label label6 = new Label("6");
         label6.setFont(new Font(15));
-        label6.setLayoutX(centerX - 4);
-        label6.setLayoutY(centerY + clockRadius - 23);
+        label6.setLayoutX(centerX - 5);
+        label6.setLayoutY(centerY + clockRadius - 25);
         group.getChildren().add(label6);
 
         Label label9 = new Label("9");
         label9.setFont(new Font(15));
         label9.setLayoutX(centerX - clockRadius + 8);
-        label9.setLayoutY(centerY - 10);
+        label9.setLayoutY(centerY - 11);
         group.getChildren().add(label9);
     }
 }
