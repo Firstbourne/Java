@@ -20,8 +20,8 @@
             <items>
                <MenuItem fx:id="menuItemAction1" mnemonicParsing="false" onAction="#getExpensive" text="Most expensive" />
                <MenuItem fx:id="menuItemAction2" mnemonicParsing="false" onAction="#setUpAllClocks" text="Set Up all clock" />
-               <MenuItem fx:id="menuItemAction3" mnemonicParsing="false" onAction="#action3" text="Most used brand" />
-               <MenuItem fx:id="menuItemAction4" mnemonicParsing="false" text="Sorted brands" />
+               <MenuItem fx:id="menuItemAction3" mnemonicParsing="false" onAction="#popularBrand" text="Most used brand" />
+               <MenuItem fx:id="menuItemAction4" mnemonicParsing="false" text="Sorted brands" onAction="#brandSorting"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

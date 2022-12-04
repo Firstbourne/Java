@@ -9,9 +9,8 @@ import javafx.stage.Stage;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 
 
 public class GUIController {
@@ -78,10 +77,10 @@ public class GUIController {
 
     public void onItemSelected(MouseEvent mouseEvent) {
         if (listView.getItems().isEmpty()) return;
-        labelName.setText(listView.getSelectionModel().getSelectedItem().name.getValue());
-        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark.getValue());
+        labelName.setText(listView.getSelectionModel().getSelectedItem().name);
+        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark);
         labelType.setText(listView.getSelectionModel().getSelectedItem().isTyped ? "With seconds" : "Without seconds");
-        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost.getValue())));
+        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost)));
         listView.getSelectionModel().getSelectedItem().draw();
         labelHour.setVisible(true);
         labelMin.setVisible(true);
@@ -97,8 +96,8 @@ public class GUIController {
         Iterator<Clock> iterator = listView.getItems().iterator();
         while (iterator.hasNext()) {
             Clock temp = iterator.next();
-            if (temp.cost.getValue() > max) {
-                max = temp.cost.getValue();
+            if (temp.cost > max) {
+                max = temp.cost;
             }
         }
         new Alert(Alert.AlertType.INFORMATION, "The most expensive clock price is: " + max).showAndWait();
@@ -120,20 +119,42 @@ public class GUIController {
     }
 
 
-    //NOT DONE YET
-    public void action3(ActionEvent actionEvent) {
-        map = new HashMap<>();
-        for (Clock clock : listView.getItems()) {
-            if (!map.containsKey(clock.mark)) {
-                map.put(String.valueOf(clock.mark), 1);
-            } else {
-                for(Map.Entry<String, Integer> pair : map.entrySet()) {
-                    if (pair.getKey() == String.valueOf(clock.mark)) {
-                        pair.setValue(pair.getValue() + 1);
-                    }
-                }
+
+    public void popularBrand(ActionEvent actionEvent) {
+        List<String> brandList = new ArrayList<>();
+        List<Integer> brandCount = new ArrayList<>();
+        for(Clock mark : listView.getItems()) {
+           if(brandList.isEmpty() || !brandList.contains(mark.mark)) {
+               brandList.add(mark.mark);
+               brandCount.add(1);
+           } else {
+               for(String temp : brandList) {
+                   if(mark.mark.compareTo(temp) == 0) {
+                       brandCount.set(brandList.indexOf(temp), brandCount.get(brandList.indexOf(temp)) + 1);
+                   }
+               }
+           }
+        }
+        int max = 0;
+        for(int temp : brandCount) {
+            if(temp > max) {
+                max = temp;
             }
         }
-        System.out.println(map.values());
+        new Alert(Alert.AlertType.INFORMATION, "The most popular brand in our shop is - " + brandList.get(brandCount.indexOf(max))).showAndWait();
+    }
+
+
+    public void brandSorting(ActionEvent actionEvent) {
+        List<String> sortedList = new ArrayList<>();
+        for(Clock mark : listView.getItems()) {
+            if (sortedList.isEmpty() || !sortedList.contains(mark.mark)) {
+                sortedList.add(mark.mark);
+            }
+        }
+        Collections.sort(sortedList);
+        for(String finalList: sortedList) {
+            System.out.println(finalList);
+        }
     }
 }

@@ -13,36 +13,34 @@ import ru.meowmure.javacreditest.Exceptions.NotValidTimeException;
 public class Clock {
     private ClockPane clockPane;
     public boolean isTyped;
-    public IntegerProperty cost;
-    public StringProperty mark;
-    public StringProperty name;
+    public Integer cost;
+    public String mark;
+    public String name;
 
 
     public Clock(Canvas canvas) {
-        cost = new SimpleIntegerProperty();
-        mark =  new SimpleStringProperty();
-        name = new SimpleStringProperty();
+
         clockPane = new ClockPane(canvas, this);
     }
 
     public Clock(int cost, String mark, String name) {
-        this.cost = new SimpleIntegerProperty(cost);
-        this.mark = new SimpleStringProperty(mark);
-        this.name = new SimpleStringProperty(name);
+        this.cost = cost;
+        this.mark = mark;
+        this.name = name;
     }
 
     public void setName(String name) {
-        this.name = new SimpleStringProperty(name);
+        this.name = name;
     }
 
     public void setCost(int cost) throws IncorrectNumberException {
         if (cost < 0) throw new IncorrectNumberException("Price cannot be below zero");
-        this.cost = new SimpleIntegerProperty(cost);
+        this.cost = cost;
     }
 
 
     public void setMark(String mark) {
-        this.mark = new SimpleStringProperty(mark);
+        this.mark = mark;
     }
 
     public void setTime(int hours, int minutes, int seconds) {
@@ -55,6 +53,6 @@ public class Clock {
 
     @Override
     public String toString() {
-        return name.getValue();
+        return name;
     }
 }
