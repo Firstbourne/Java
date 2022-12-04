@@ -19,6 +19,8 @@ public class Clock {
     public int minutes = 0;
     public int seconds = 0;
 
+    public int finalHours = 0, finalMinutes = 0, finalSeconds = 0;
+
     public GregorianCalendar timeStart;
     public GregorianCalendar timeEnd;
 
@@ -49,9 +51,9 @@ public class Clock {
     }
 
     public void setTime(int hours, int minutes, int seconds) {
-        this.seconds = seconds;
-        this.minutes = minutes;
-        this.hours = hours;
+        finalSeconds = seconds;
+        finalMinutes = minutes;
+        finalHours = hours;
         timeStart = new GregorianCalendar();
     }
 
@@ -66,9 +68,9 @@ public class Clock {
 
     public void draw() {
         timeEnd = new GregorianCalendar();
-        seconds = timeEnd.get(Calendar.SECOND) - timeStart.get(Calendar.SECOND) + seconds;
-        minutes = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE) + minutes;
-        hours = timeEnd.get(Calendar.HOUR) - timeStart.get(Calendar.HOUR) + hours;
+        seconds = timeEnd.get(Calendar.SECOND) - timeStart.get(Calendar.SECOND) + finalSeconds;
+        minutes = timeEnd.get(Calendar.MINUTE) - timeStart.get(Calendar.MINUTE) + finalMinutes;
+        hours = timeEnd.get(Calendar.HOUR) - timeStart.get(Calendar.HOUR) + finalHours;
         clockPane.PaintClock(hours, minutes, seconds);
     }
 
