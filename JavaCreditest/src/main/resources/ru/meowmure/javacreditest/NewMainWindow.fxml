@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.meowmure.javacreditest.Controllers.GUIController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -39,9 +39,9 @@
          </BorderPane.margin></ListView>
    </left>
    <right>
-      <FlowPane orientation="VERTICAL" prefHeight="491.0" prefWidth="171.0" BorderPane.alignment="CENTER">
+      <FlowPane alignment="TOP_RIGHT" orientation="VERTICAL" prefWidth="171.0" rowValignment="BOTTOM" BorderPane.alignment="CENTER">
          <children>
-            <BorderPane prefHeight="290.0" prefWidth="208.0">
+            <BorderPane prefWidth="208.0">
                <top>
                   <FlowPane hgap="30.0" orientation="VERTICAL" prefHeight="123.0" vgap="15.0" BorderPane.alignment="CENTER">
                      <children>
@@ -130,7 +130,7 @@
             </BorderPane>
             <BorderPane>
                <bottom>
-                  <FlowPane alignment="BOTTOM_LEFT" prefHeight="186.0" prefWidth="208.0" BorderPane.alignment="BOTTOM_CENTER">
+                  <FlowPane alignment="BOTTOM_LEFT" prefHeight="180.0" prefWidth="208.0" rowValignment="BOTTOM" BorderPane.alignment="BOTTOM_CENTER">
                      <children>
                         <Button fx:id="add" mnemonicParsing="false" onAction="#add" prefWidth="52.0" text="Add" textAlignment="CENTER">
                            <font>

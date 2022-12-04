@@ -3,16 +3,13 @@ package ru.meowmure.javacreditest.Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 public class GUIController {
@@ -59,8 +56,7 @@ public class GUIController {
     private MenuItem menuItemClose;
     @FXML
     private Group group;
-
-    private HashMap<String, Integer> map;
+    private HashMap<String, Integer> map = new HashMap<>();
 
     private ClockShopApplication app;
 
@@ -73,17 +69,21 @@ public class GUIController {
     }
 
     public void add(ActionEvent actionEvent) {
-        Clock clock = new Clock(group);
+        Color color = new Random().nextInt(2) == 0 ? Color.AQUA : Color.MAGENTA;
+        Clock clock = new Clock(group, color);
         app.showAddWindow(clock, listView);
     }
 
     public void onItemSelected(MouseEvent mouseEvent) {
         if (listView.getItems().isEmpty()) return;
-        labelName.setText(listView.getSelectionModel().getSelectedItem().name.getValue());
-        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark.getValue());
+
+        labelName.setText(listView.getSelectionModel().getSelectedItem().name);
+        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark);
         labelType.setText(listView.getSelectionModel().getSelectedItem().isTyped ? "With seconds" : "Without seconds");
-        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost.getValue())));
+        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost)));
+
         listView.getSelectionModel().getSelectedItem().draw();
+
         labelHour.setVisible(true);
         labelMin.setVisible(true);
         labelSec.setVisible(true);
@@ -98,8 +98,8 @@ public class GUIController {
         Iterator<Clock> iterator = listView.getItems().iterator();
         while (iterator.hasNext()) {
             Clock temp = iterator.next();
-            if (temp.cost.getValue() > max) {
-                max = temp.cost.getValue();
+            if (temp.cost > max) {
+                max = temp.cost;
             }
         }
         new Alert(Alert.AlertType.INFORMATION, "The most expensive clock price is: " + max).showAndWait();
@@ -123,18 +123,25 @@ public class GUIController {
 
     //NOT DONE YET
     public void action3(ActionEvent actionEvent) {
-        map = new HashMap<>();
         for (Clock clock : listView.getItems()) {
             if (!map.containsKey(clock.mark)) {
-                map.put(String.valueOf(clock.mark), 1);
+                map.put(clock.mark, 1);
             } else {
-                for(Map.Entry<String, Integer> pair : map.entrySet()) {
-                    if (pair.getKey() == String.valueOf(clock.mark)) {
-                        pair.setValue(pair.getValue() + 1);
-                    }
-                }
+                int count = map.get(clock.mark);
+                count++;
+                map.put(clock.mark, count);
             }
         }
-        System.out.println(map.values());
+        String brand = null;
+        int max = 0;
+        for (Map.Entry<String, Integer> pair : map.entrySet()) {
+            if (pair.getValue() > max) {
+                max = pair.getValue();
+                brand = pair.getKey();
+            }
+        }
+        new Alert(Alert.AlertType.INFORMATION, "The most popular brand is: " + brand).showAndWait();
+        map.clear();
+
     }
 }

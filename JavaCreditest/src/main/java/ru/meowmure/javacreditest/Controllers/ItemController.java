@@ -57,11 +57,22 @@ public class ItemController {
         clock.setName(name.getText());
         clock.isTyped = type.isSelected();
 
-        listView.getItems().add(clock);
-        returnList();
-        ((Stage)(buttonCreate.getScene().getWindow())).close();
-     }
+        checkMatches();
 
+        listView.getItems().add(clock);
+
+        returnList();
+
+        ((Stage)(buttonCreate.getScene().getWindow())).close();
+    }
+
+    public void checkMatches() {
+        for(Clock temp : listView.getItems()) {
+            if (temp.mark.compareTo(clock.mark) == 0) {
+                clock.setClockPane(temp.getClockPane());
+            }
+        }
+    }
     public void setObject(Clock clock) {
         this.clock = clock;
     }
