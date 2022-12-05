@@ -3,7 +3,6 @@ package ru.meowmure.javacreditest.Clockshop;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -11,10 +10,12 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-public class ClockPane extends Pane {
+import java.io.Serializable;
+
+public class ClockPane {
     private Group group;
     private Clock clock;
-    Color color;
+    public Color color;
     private Line sline;
     private Line mline;
     private Line hline;
@@ -43,7 +44,6 @@ public class ClockPane extends Pane {
 
         Circle mainCircle = new Circle(centerX,centerY, clockRadius, Color.WHITE);
         mainCircle.setStrokeWidth(2);
-        mainCircle.setStroke(Color.CORAL);
 
         Circle helpCircle = new Circle(centerX,centerY, clockRadius - 5, Color.WHITE);
         Circle centerDot = new Circle(centerX,centerY, clockRadius * 0.02,Color.BLACK);

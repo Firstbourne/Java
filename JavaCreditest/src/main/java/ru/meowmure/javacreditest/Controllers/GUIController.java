@@ -6,11 +6,18 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import ru.meowmure.javacreditest.ClockShopApplication;
 import ru.meowmure.javacreditest.Clockshop.Clock;
 
+import java.awt.*;
+import java.io.*;
 import java.util.*;
 
 
@@ -58,6 +65,7 @@ public class GUIController {
     private MenuItem menuItemClose;
     @FXML
     private Group group;
+    private Desktop desktop = Desktop.getDesktop();
     private HashMap<String, Integer> map = new HashMap<>();
 
     private ClockShopApplication app;
@@ -146,4 +154,63 @@ public class GUIController {
         map.clear();
 
     }
+
+    public void serializationSave(ActionEvent actionEvent) {
+        try {
+            FileOutputStream fout = new FileOutputStream("ClockShopApplication.txt");
+            ObjectOutputStream objOut = new ObjectOutputStream(fout);
+            for (Clock temp : listView.getItems()) {
+                objOut.writeObject(temp);
+                objOut.flush();
+            }
+            objOut.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void serializationOpen(ActionEvent actionEvent) {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open...");
+            File file = fileChooser.showOpenDialog(buttonSet.getScene().getWindow());
+            if (file != null) {
+                FileInputStream fileInputStream = new FileInputStream(file.getName());
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                Clock temp = (Clock) objectInputStream.readObject();
+                listView.getItems().clear();
+                while (temp != null) {
+                    temp.clockRestored(group);
+                    listView.getItems().add(temp);
+                    temp = (Clock) objectInputStream.readObject();
+                }
+                objectInputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (EOFException e) {
+            return;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void JSONOpen(ActionEvent actionEvent) {
+    }
+
+    public void JSONSave(ActionEvent actionEvent) {
+
+    }
+
+    public void dataBaseOpen(ActionEvent actionEvent) {
+    }
+
+    public void dataBaseSave(ActionEvent actionEvent) {
+    }
 }
+// TODO: Создать пул брендов, начать сохранение в БД

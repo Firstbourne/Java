@@ -5,21 +5,21 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Clock {
-    private ClockPane clockPane;
+public class Clock implements Serializable {
+    private transient ClockPane clockPane;
     public boolean isTyped;
-    public Integer cost;
+    public int cost;
     public String mark;
     public String name;
 
-    public int hours = 0;
-    public int minutes = 0;
-    public int seconds = 0;
-
+    public int hours = 0, minutes = 0, seconds = 0;
     public int finalHours = 0, finalMinutes = 0, finalSeconds = 0;
+
+    private double red, green, blue;
 
     public GregorianCalendar timeStart;
     public GregorianCalendar timeEnd;
@@ -28,6 +28,9 @@ public class Clock {
     public Clock(Group group, Color color) {
         clockPane = new ClockPane(group, this, color);
         timeStart = new GregorianCalendar();
+        red = color.getRed();
+        green = color.getGreen();
+        blue = color.getBlue();
     }
 
     public Clock(int cost, String mark, String name) {
@@ -57,6 +60,9 @@ public class Clock {
         timeStart = new GregorianCalendar();
     }
 
+    public void clockRestored(Group group) {
+        clockPane = new ClockPane(group, this, Color.color(red, green, blue));
+    }
 
     public ClockPane getClockPane() {
         return clockPane;
