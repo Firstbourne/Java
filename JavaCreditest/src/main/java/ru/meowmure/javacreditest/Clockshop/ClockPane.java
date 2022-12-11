@@ -62,7 +62,7 @@ public class ClockPane {
         group.getChildren().add(helpCircle);
         group.getChildren().add(centerDot);
 
-        if (clock.isTyped) {
+        if (clock.isTyped()) {
             sline = new Line(centerX, centerY, centerX, centerY - slength);
             sline.setStroke(Color.RED);
             sline.setTranslateX(0);

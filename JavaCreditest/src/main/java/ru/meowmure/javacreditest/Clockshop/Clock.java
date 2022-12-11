@@ -1,6 +1,7 @@
 package ru.meowmure.javacreditest.Clockshop;
 
 
+import com.google.gson.annotations.Expose;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
@@ -11,20 +12,28 @@ import java.util.GregorianCalendar;
 
 public class Clock implements Serializable {
     private transient ClockPane clockPane;
-    public boolean isTyped;
-    public int cost;
-    public String mark;
-    public String name;
-
-    public int hours = 0, minutes = 0, seconds = 0;
-    public int finalHours = 0, finalMinutes = 0, finalSeconds = 0;
-
+    @Expose
+    private String name;
+    @Expose
+    private String mark;
+    @Expose
+    private int cost;
+    @Expose
+    private boolean isTyped;
+    @Expose
     private double red, green, blue;
+    @Expose
+    private int hours = 0, minutes = 0, seconds = 0;
+    @Expose
+    private int finalHours = 0, finalMinutes = 0, finalSeconds = 0;
+    @Expose
+    private GregorianCalendar timeStart;
+    @Expose
+    private GregorianCalendar timeEnd;
 
-    public GregorianCalendar timeStart;
-    public GregorianCalendar timeEnd;
+    public Clock() {
 
-
+    }
     public Clock(Group group, Color color) {
         clockPane = new ClockPane(group, this, color);
         timeStart = new GregorianCalendar();
@@ -33,25 +42,52 @@ public class Clock implements Serializable {
         blue = color.getBlue();
     }
 
-    public Clock(int cost, String mark, String name) {
-        this.cost = cost;
-        this.mark = mark;
-        this.name = name;
-    }
+    public String getName() { return name; }
 
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getMark() { return mark; }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public int getCost() { return cost; }
 
     public void setCost(int cost) throws IncorrectNumberException {
         if (cost < 0) throw new IncorrectNumberException("Price cannot be below zero");
         this.cost = cost;
     }
 
+    public boolean isTyped() { return isTyped; }
 
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
+    public void setTyped(boolean typed) { isTyped = typed; }
+
+    public double getRed() { return red; }
+
+    public void setRed(double red) { this.red = red; }
+
+    public double getGreen() { return green; }
+
+    public void setGreen(double green) { this.green = green; }
+
+    public double getBlue() { return blue; }
+
+    public void setBlue(double blue) { this.blue = blue; }
+
+    public int getHours() { return hours; }
+
+    public void setHours(int hours) { this.hours = hours; }
+
+    public int getMinutes() { return minutes; }
+
+    public void setMinutes(int minutes) { this.minutes = minutes; }
+
+    public int getSeconds() { return seconds; }
+
+    public void setSeconds(int seconds) { this.seconds = seconds; }
 
     public void setTime(int hours, int minutes, int seconds) {
         finalSeconds = seconds;
@@ -79,7 +115,6 @@ public class Clock implements Serializable {
         hours = timeEnd.get(Calendar.HOUR) - timeStart.get(Calendar.HOUR) + finalHours;
         clockPane.PaintClock(hours, minutes, seconds);
     }
-
 
     @Override
     public String toString() {

@@ -55,7 +55,7 @@ public class ItemController {
         }
 
         clock.setName(name.getText());
-        clock.isTyped = type.isSelected();
+        clock.setTyped(type.isSelected());
 
         checkMatches();
 
@@ -68,7 +68,7 @@ public class ItemController {
 
     public void checkMatches() {
         for(Clock temp : listView.getItems()) {
-            if (temp.mark.compareTo(clock.mark) == 0) {
+            if (temp.getMark().compareTo(clock.getMark()) == 0) {
                 clock.setClockPane(temp.getClockPane());
             }
         }

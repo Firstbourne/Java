@@ -1,5 +1,8 @@
 package ru.meowmure.javacreditest.Controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonToken;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -65,7 +68,6 @@ public class GUIController {
     private MenuItem menuItemClose;
     @FXML
     private Group group;
-    private Desktop desktop = Desktop.getDesktop();
     private HashMap<String, Integer> map = new HashMap<>();
 
     private ClockShopApplication app;
@@ -87,10 +89,10 @@ public class GUIController {
     public void onItemSelected(MouseEvent mouseEvent) {
         if (listView.getItems().isEmpty()) return;
 
-        labelName.setText(listView.getSelectionModel().getSelectedItem().name);
-        labelBrand.setText(listView.getSelectionModel().getSelectedItem().mark);
-        labelType.setText(listView.getSelectionModel().getSelectedItem().isTyped ? "With seconds" : "Without seconds");
-        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().cost)));
+        labelName.setText(listView.getSelectionModel().getSelectedItem().getName());
+        labelBrand.setText(listView.getSelectionModel().getSelectedItem().getMark());
+        labelType.setText(listView.getSelectionModel().getSelectedItem().isTyped() ? "With seconds" : "Without seconds");
+        labelPrice.setText(String.valueOf((listView.getSelectionModel().getSelectedItem().getCost())));
 
         listView.getSelectionModel().getSelectedItem().draw();
 
@@ -108,8 +110,8 @@ public class GUIController {
         Iterator<Clock> iterator = listView.getItems().iterator();
         while (iterator.hasNext()) {
             Clock temp = iterator.next();
-            if (temp.cost > max) {
-                max = temp.cost;
+            if (temp.getCost() > max) {
+                max = temp.getCost();
             }
         }
         new Alert(Alert.AlertType.INFORMATION, "The most expensive clock price is: " + max).showAndWait();
@@ -130,16 +132,14 @@ public class GUIController {
         app.showTimeWindow(listView);
     }
 
-
-    //NOT DONE YET
     public void action3(ActionEvent actionEvent) {
         for (Clock clock : listView.getItems()) {
-            if (!map.containsKey(clock.mark)) {
-                map.put(clock.mark, 1);
+            if (!map.containsKey(clock.getMark())) {
+                map.put(clock.getMark(), 1);
             } else {
-                int count = map.get(clock.mark);
+                int count = map.get(clock.getMark());
                 count++;
-                map.put(clock.mark, count);
+                map.put(clock.getMark(), count);
             }
         }
         String brand = null;
@@ -201,16 +201,41 @@ public class GUIController {
     }
 
     public void JSONOpen(ActionEvent actionEvent) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("Clock.json"));
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.excludeFieldsWithoutExposeAnnotation().create();
+            String jsonString;
+            jsonString = bufferedReader.readLine();
+            Clock[] arrayClocks = gson.fromJson(jsonString, Clock[].class);
+            listView.getItems().clear();
+            for (Clock temp:arrayClocks) {
+                temp.clockRestored(group);
+                listView.getItems().add(temp);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void JSONSave(ActionEvent actionEvent) {
-
+        try (PrintWriter out = new PrintWriter(new FileWriter("Clock.json"))) {
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            String jsonString = gson.toJson(listView.getItems());
+            out.write(jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void dataBaseOpen(ActionEvent actionEvent) {
+
     }
 
     public void dataBaseSave(ActionEvent actionEvent) {
+
     }
 }
 // TODO: Создать пул брендов, начать сохранение в БД
