@@ -15,9 +15,9 @@ module ru.meowmure.javacreditest {
     requires mysql.connector.java;
     requires java.sql;
 
-    opens ru.meowmure.javacreditest.Clockshop to com.google.gson;
+    opens ru.meowmure.javacreditest.Model to com.google.gson;
     opens ru.meowmure.javacreditest to javafx.fxml;
-    exports ru.meowmure.javacreditest.Clockshop;
+    exports ru.meowmure.javacreditest.Model;
     exports ru.meowmure.javacreditest;
     exports ru.meowmure.javacreditest.Controllers;
     opens ru.meowmure.javacreditest.Controllers to javafx.fxml;
