@@ -8,7 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import ru.meowmure.javacreditest.Clockshop.Clock;
+import ru.meowmure.javacreditest.Model.Clock;
 import ru.meowmure.javacreditest.Controllers.GUIController;
 import ru.meowmure.javacreditest.Controllers.ItemController;
 import ru.meowmure.javacreditest.Controllers.TimeController;
@@ -28,7 +28,7 @@ public class ClockShopApplication extends Application {
 
     public void showMainWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(ClockShopApplication.class.getResource("NewMainWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(ClockShopApplication.class.getResource("MainWindow.fxml"));
             Scene mainScene = new Scene(loader.load());
             Stage mainStage = new Stage();
             mainStage.setTitle("Shop");

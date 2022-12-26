@@ -6,19 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import ru.meowmure.javacreditest.ClockShopApplication;
-import ru.meowmure.javacreditest.Clockshop.Clock;
-import ru.meowmure.javacreditest.Exceptions.IncorrectNumberException;
+import ru.meowmure.javacreditest.Model.Clock;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class GUIController {
@@ -69,16 +65,30 @@ public class GUIController {
 
     private ClockShopApplication app;
 
-    public void setApp(ClockShopApplication app) { this.app = app; }
+
+    public void setApp(ClockShopApplication app) {
+        this.app = app;
+    }
 
     public void setListView(ListView<Clock> listView) {
         this.listView = listView;
     }
 
     public void add(ActionEvent actionEvent) {
-        Color color = new Random().nextInt(2) == 0 ? Color.AQUA : Color.MAGENTA;
-        Clock clock = new Clock(group, color);
+        Clock clock = new Clock(group);
         app.showAddWindow(clock, listView);
+    }
+
+    public ListView<Clock> getListView() {
+        return listView;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void onItemSelected(MouseEvent mouseEvent) {
@@ -240,49 +250,6 @@ public class GUIController {
     }
 
     public void defaultClockBrands() {
-        try {
-            Color colorRolex = Color.GOLD;
-            Clock clockRolex = new Clock(group, colorRolex);
-            clockRolex.setName("Day Date 40");
-            clockRolex.setMark("Rolex");
-            clockRolex.setCost(500000);
-            clockRolex.setTyped(true);
-
-            Color colorPatekPhilippe = Color.GHOSTWHITE;
-            Clock clockPatekPhilippe = new Clock(group, colorPatekPhilippe);
-            clockPatekPhilippe.setName("Nautilus");
-            clockPatekPhilippe.setMark("PatekPhilippe");
-            clockPatekPhilippe.setCost(990000);
-            clockPatekPhilippe.setTyped(true);
-
-            Color colorTAGHeuer = Color.ROYALBLUE;
-            Clock clockTAGheuer = new Clock(group, colorTAGHeuer);
-            clockTAGheuer.setName("Monaco");
-            clockTAGheuer.setMark("TAG Heuer");
-            clockTAGheuer.setCost(478000);
-            clockTAGheuer.setTyped(false);
-
-            Color colorLongines = Color.LIMEGREEN;
-            Clock clockLongines = new Clock(group, colorLongines);
-            clockLongines.setName("Spirit");
-            clockLongines.setMark("Longines");
-            clockLongines.setCost(333600);
-            clockLongines.setTyped(false);
-
-            Color colorAudemarsPiguet = Color.LIGHTSTEELBLUE;
-            Clock clockAudemarsPiguet = new Clock(group, colorAudemarsPiguet);
-            clockAudemarsPiguet.setName("Royal Oak");
-            clockAudemarsPiguet.setMark("Audemars Piguet");
-            clockAudemarsPiguet.setCost(777000);
-            clockAudemarsPiguet.setTyped(true);
-
-            listView.getItems().add(clockRolex);
-            listView.getItems().add(clockPatekPhilippe);
-            listView.getItems().add(clockTAGheuer);
-            listView.getItems().add(clockLongines);
-            listView.getItems().add(clockAudemarsPiguet);
-        } catch (IncorrectNumberException e) {
-            throw new RuntimeException(e);
-        }
+        DefaultList.createDefaultList(this);
     }
 }
