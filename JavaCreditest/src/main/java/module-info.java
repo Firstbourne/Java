@@ -12,7 +12,7 @@ module ru.meowmure.javacreditest {
     requires com.google.gson;
     requires java.naming;
     requires java.sql;
-    requires java.persistence;
+    requires javax.persistence;
 
     opens ru.meowmure.javacreditest.Model to com.google.gson;
     opens ru.meowmure.javacreditest to javafx.fxml;

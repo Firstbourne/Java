@@ -67,7 +67,6 @@ public class GUIController {
 
 
     public void setApp(ClockShopApplication app) {
-        DefaultList.createDefaultList(this);
         this.app = app;
     }
 
@@ -248,5 +247,9 @@ public class GUIController {
         for (Clock temp:listView.getItems()) {
             dbController.Save(temp);
         }
+    }
+
+    public void defaultClockBrands() {
+        DefaultList.createDefaultList(this);
     }
 }
